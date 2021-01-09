@@ -15,11 +15,11 @@ repositories {
 
 ext {
     set('springCloudVersion', "2020.0.0")
+    set("profile", System.getenv('SPRING_PROFILES_ACTIVE') ?: 'default')
 }
 
 dependencies {
     implementation 'org.springframework.cloud:spring-cloud-config-server'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 dependencyManagement {
@@ -28,6 +28,13 @@ dependencyManagement {
     }
 }
 
-test {
-    useJUnitPlatform()
+bootBuildImage {
+    publish = true
+    imageName = "cloudportfolio/${project.name}-${profile}"
+    docker {
+        publishRegistry {
+            username = findProperty('dockerHubUsername') ?: System.getenv('DOCKER_HUB_USR')
+            password = findProperty('dockerHubPassword') ?: System.getenv('DOCKER_HUB_PSW')
+        }
+    }
 }
