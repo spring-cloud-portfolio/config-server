@@ -23,11 +23,27 @@ spring:
   ### Cloud ###
   cloud:
 
-    ### Config server ###
+    ### Config ###
     config:
+      ### Discovery ###
+      discovery:
+        enabled: true
+        service-id: config-server
+      ### Server ###
       server:
         git:
           force-pull: true
           clone-on-start: true
           search-paths: /src/main/resources
           uri: https://github.com/spring-cloud-portfolio/config-server-repository.git
+
+### Eureka ###
+eureka:
+  client:
+    service-url:
+      defaultZone: "http://user:1111@localhost:8761/eureka/"
+
+### Logging ###
+logging:
+  level:
+    root: info

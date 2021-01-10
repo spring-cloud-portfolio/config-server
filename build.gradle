@@ -15,11 +15,12 @@ repositories {
 
 ext {
     set('springCloudVersion', "2020.0.0")
-    set("profile", System.getenv('SPRING_PROFILES_ACTIVE') ?: 'default')
+    set("dockerImageProfile", project.findProperty("dip") ?: 'default')
 }
 
 dependencies {
-    implementation 'org.springframework.cloud:spring-cloud-config-server'
+    implementation('org.springframework.cloud:spring-cloud-config-server')
+    implementation('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
 }
 
 dependencyManagement {
@@ -30,7 +31,7 @@ dependencyManagement {
 
 bootBuildImage {
     publish = true
-    imageName = "cloudportfolio/${project.name}-${profile}"
+    imageName = "cloudportfolio/${project.name}-${dockerImageProfile}"
     docker {
         publishRegistry {
             username = findProperty('dockerHubUsername') ?: System.getenv('DOCKER_HUB_USR')
