@@ -19,6 +19,7 @@ ext {
 }
 
 dependencies {
+    implementation('com.github.ben-manes.caffeine:caffeine')
     implementation('org.springframework.cloud:spring-cloud-config-server')
     implementation('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
 }
@@ -32,7 +33,7 @@ dependencyManagement {
 bootBuildImage {
     publish = true
     cleanCache = false
-    environment = ["BP_JVM_VERSION"   : "15.*"]
+    environment = ["BP_JVM_VERSION": "15.*"]
     imageName = "cloudportfolio/${project.name}-${dockerImageProfile}"
     docker {
         publishRegistry {
