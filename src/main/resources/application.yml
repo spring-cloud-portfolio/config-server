@@ -37,6 +37,10 @@ spring:
           search-paths: /src/main/resources
           uri: https://github.com/spring-cloud-portfolio/config-server-repository.git
 
+  ### Banner ###
+  banner:
+    location: banner/banner-3-d.txt
+
 ### Eureka ###
 eureka:
   client:
