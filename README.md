@@ -1,4 +1,4 @@
-## Eureka discovery server
+## Configuration server
 
 
 ### To build docker image run:
