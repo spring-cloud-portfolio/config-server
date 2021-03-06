@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.4.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+//    id 'org.springframework.experimental.aot' version '0.9.0-SNAPSHOT'
 }
 
 version = '0.0.1'
@@ -17,17 +18,20 @@ bootJar {
 
 repositories {
     mavenCentral()
+    maven { url 'https://repo.spring.io/snapshot' }
     maven { url 'https://repo.spring.io/milestone' }
 }
 
 ext {
     set('springCloudVersion', "2020.0.1")
+    set('springNativeVersion', "0.9.0-SNAPSHOT")
     set("dockerImageProfile", project.findProperty("dip") ?: 'default')
 }
 
 dependencies {
     implementation('com.github.ben-manes.caffeine:caffeine')
     implementation('org.springframework.cloud:spring-cloud-config-server')
+//    implementation("org.springframework.experimental:spring-native:$springNativeVersion")
     implementation('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
 }
 
@@ -37,10 +41,15 @@ dependencyManagement {
     }
 }
 
+//            "BP_JVM_VERSION"      : "15.*",
+//            "BP_BOOT_NATIVE_IMAGE_BUILD_ARGUMENTS": "--initialize-at-build-time=javax.el --enable-http"
 bootBuildImage {
     publish = true
     cleanCache = false
-    environment = ["BP_JVM_VERSION": "15.*"]
+//    builder = "paketobuildpacks/builder:tiny"
+    environment = [
+            "BP_JVM_VERSION": "15.*"
+    ]
     imageName = "cloudportfolio/${project.name}-${dockerImageProfile}"
     docker {
         publishRegistry {
